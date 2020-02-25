@@ -34,11 +34,7 @@ var database = {
     },
 }
 
-var dataprocessing = require("./queries")
-
-
-var leadsmanagement = dataprocessing({database})
 
 
 
-module.exports = leadsmanagement
+module.exports = database
