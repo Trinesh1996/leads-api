@@ -31,6 +31,10 @@ app.get("/leadsapi/getLeads", service.getLeads)
 app.get("/leadsapi/getLeadsWithoutRef", service.getLeadsWithoutRef)
 app.get("/leadsapi/getLeadsDisposition", service.getLeadsWithDisposition)
 
+app.get("/", function (req, res) {
+    res.send("welcome page")
+})
+
 app.put("/leadsapi/dispositionUpdate/:id/:disposition", service.dispositionUpdate)
 app.get("/leadsapi/getLeads/:id", service.getLeadsById)
 
