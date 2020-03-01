@@ -12,13 +12,11 @@ if (process.env.DATABASE_URL && !local) {
 }
 
 // connect to db
-const connectionString = process.env.POSTGRES_HOST
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:Trinesh1997@@localhost:5432/leadsapi'
 
 const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "leadsapi",
-    password: "Trinesh1997@"
+  connectionString,
+  ssl: useSSL
 })
 
 pool.on("error", (err, client) => 

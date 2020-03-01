@@ -19,7 +19,8 @@ module.exports = function (service)
             }
             else
             {
-                res.json(data)
+                var leads = _.filter(data, _.matches(req.query))
+                res.json(leads)
             }
         })
     }
@@ -49,11 +50,46 @@ module.exports = function (service)
             }
         })
     }
+
+    async function getLeadsById (req, res) {
+        
+        var params = req.params.id
+
+        service.getLeadsById(params, function (err, data) {
+            if (err)
+            {
+                res.send(err)
+            }
+            else{
+                res.json(data)
+            }
+        
+        })
+    }
+
+    async function dispositionUpdate (req, res) {
+        var id = req.params.id
+        var disposition = req.params.disposition
+
+        service.updateDisposition(id, disposition, function (err, resp) 
+        {
+            if (err)
+            {
+                res.send(err)
+            }
+            else
+            {
+                res.send(resp)
+            }
+        })
+    }
   
    
     return Object.freeze({
         getLeads
         ,getLeadsWithoutRef
         ,getLeadsWithDisposition
+        ,dispositionUpdate
+        ,getLeadsById
     })
 }

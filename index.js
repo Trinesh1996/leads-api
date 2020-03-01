@@ -4,7 +4,7 @@ var fs = require("fs")
 var _ = require ("lodash")
 
 // // Environmental Variables
-var PORT = process.env.PORT
+var PORT = process.env.PORT || 3000
 
 var database = require("./src/database/pg")
 var queries = require("./src/database/queries")
@@ -30,6 +30,9 @@ app.use(bodyParser.json())
 app.get("/leadsapi/getLeads", service.getLeads)
 app.get("/leadsapi/getLeadsWithoutRef", service.getLeadsWithoutRef)
 app.get("/leadsapi/getLeadsDisposition", service.getLeadsWithDisposition)
+
+app.put("/leadsapi/dispositionUpdate/:id/:disposition", service.dispositionUpdate)
+app.get("/leadsapi/getLeads/:id", service.getLeadsById)
 
 
 // Error handling
