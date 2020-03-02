@@ -1,5 +1,7 @@
 require('dotenv').config();
 var fs = require("fs")
+var path = require("path")
+
 
 var _ = require ("lodash")
 
@@ -16,9 +18,14 @@ var service = handler(Queries)
 
 
 var express = require("express")
+var passport = require('passport')
 var bodyParser = require("body-parser")
 var cors = require("cors")
 var app = express()
+
+require("./src/lib/passport")(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 
@@ -26,14 +33,31 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
+
+
+var login = path.join(__dirname,'./public/home');
+
+app.use("/leadsapi/login", express.static(login))
+
+// login endpoint
+
+app.get("*", function (req, res, next) {
+    res.locals.user = req.user || null
+    next()
+})
+
+
+app.get("/", function (req, res, next)
+{
+    res.redirect("leadsapi/login")
+})
+
 // main endpoints
 app.get("/leadsapi/getLeads", service.getLeads)
 app.get("/leadsapi/getLeadsWithoutRef", service.getLeadsWithoutRef)
 app.get("/leadsapi/getLeadsDisposition", service.getLeadsWithDisposition)
 
-app.get("/", function (req, res) {
-    res.send("welcome pe")
-})
+
 
 app.put("/leadsapi/dispositionUpdate/:lead_id/:disposition", service.dispositionUpdate)
 app.get("/leadsapi/getLeads/:id", service.getLeadsById)

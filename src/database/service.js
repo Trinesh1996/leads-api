@@ -34,28 +34,59 @@ var tableColumns =  uniqueColumn.concat(allColumns)
 
 function main (done)
 {
-    createTable(function (err, res) {
-        if (err)
-        {
+
+    createUserTable (function (err, res) {
+        if (err) {
             if (done && done.constructor == Function) return done (err)
         }
         else
         {
-            insertLeads(function (err, res) {
-                if (err)
-                {
-                    if (done && done.constructor == Function) return done (err)
-                }
-                else
-                {
-                    if (done && done.constructor == Function) return done (null, "inserted leads")
-                }
-            })
+            if (done && done.constructor == Function) return done (null, res)
+        }
+    })
+
+    // createLeadsTable(function (err, res) {
+    //     if (err)
+    //     {
+    //         if (done && done.constructor == Function) return done (err)
+    //     }
+    //     else
+    //     {
+    //         if (done && done.constructor == Function) return done (null, res)
+    //         // insertLeads(function (err, res) {
+    //         //     if (err)
+    //         //     {
+    //         //         if (done && done.constructor == Function) return done (err)
+    //         //     }
+    //         //     else
+    //         //     {
+    //         //         if (done && done.constructor == Function) return done (null, "inserted leads")
+    //         //     }
+    //         // })
+    //     }
+    // })
+}
+
+function createUserTable (done)
+{
+    database.query(`CREATE TABLE IF NOT EXISTS users (id SERIAL, username text not null, password text not null)`, function (err, res) 
+    {
+        if (err) {
+            console.log(err)
+            return done (err)
+        }
+        else
+        {
+            
+            // Insert data
+            console.log(res)
+            return done (null, "created user table")
+            
         }
     })
 }
 
-function createTable (done)
+function createLeadsTable (done)
 {
     // // Create Table
     database.query(`CREATE TABLE IF NOT EXISTS leads (id SERIAL, ${tableColumns}, disposition text)`, function (err, res) 
@@ -69,7 +100,7 @@ function createTable (done)
             
             // Insert data
             console.log(res)
-            return done (null, "created table")
+            return done (null, "created leads table")
             
         }
     })
