@@ -20,7 +20,16 @@ module.exports = function (service)
             else
             {
                 var leads = _.filter(data, _.matches(req.query))
-                res.json(leads)
+                var headers =
+                {
+                    response_code: res.statusCode == 200 ? res.statusCode : null,
+                    error_code: res.statusCode != 200 ? res.statusCode : null,
+                    status_message: res.statusMessage,
+                    STATUS: res.statusCode === 200 ? "SUCCESS" : "ERROR",
+                    row_count: leads.length,
+                    data: leads
+                }
+                res.json(headers)
             }
         })
     }
@@ -33,7 +42,16 @@ module.exports = function (service)
             }
             else
             {
-                res.json(data)
+                var headers =
+                {
+                    response_code: res.statusCode == 200 ? res.statusCode : null,
+                    error_code: res.statusCode != 200 ? res.statusCode : null,
+                    status_message: res.statusMessage,
+                    STATUS: res.statusCode === 200 ? "SUCCESS" : "ERROR",
+                    row_count: data.length,
+                    data: data
+                }
+                res.json(headers)
             }
         })
     }
@@ -46,7 +64,16 @@ module.exports = function (service)
             }
             else
             {
-                res.json(data)
+                var headers =
+                {
+                    response_code: res.statusCode == 200 ? res.statusCode : null,
+                    error_code: res.statusCode != 200 ? res.statusCode : null,
+                    status_message: res.statusMessage,
+                    STATUS: res.statusCode === 200 ? "SUCCESS" : "ERROR",
+                    row_count: data.length,
+                    data: data
+                }
+                res.json(headers)
             }
         })
     }
@@ -61,7 +88,16 @@ module.exports = function (service)
                 res.send(err)
             }
             else{
-                res.json(data)
+                var headers =
+                {
+                    response_code: res.statusCode == 200 ? res.statusCode : null,
+                    error_code: res.statusCode != 200 ? res.statusCode : null,
+                    status_message: res.statusMessage,
+                    STATUS: res.statusCode === 200 ? "SUCCESS" : "ERROR",
+                    row_count: data.length,
+                    data: data
+                }
+                res.json(headers)
             }
         
         })
