@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
     res.send("welcome pe")
 })
 
-app.put("/leadsapi/dispositionUpdate/:id/:disposition", service.dispositionUpdate)
+app.put("/leadsapi/dispositionUpdate/:lead_id/:disposition", service.dispositionUpdate)
 app.get("/leadsapi/getLeads/:id", service.getLeadsById)
 
 
@@ -52,13 +52,13 @@ process.on('uncaughtException', function(err, promise) {
     }
 });
 
+
 process.on('SIGINT', function() 
 {
-    database.close(function(err) 
-    {
-        process.exit(err ? 1 : 0);
-    });
-});
+    var err = "error"
+    process.exit(err ? 1 : 0);
+
+})
 
 // app.use(function (error, req, res, next)
 // {

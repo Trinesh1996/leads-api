@@ -13,7 +13,7 @@ module.exports = function postgre (database)
     
     function getLeads (done)
     {
-        database.query("SELECT * from leads ORDER BY id ASC", function (err, data) {
+        database.query("SELECT * from leads ORDER BY lead_id ASC", function (err, data) {
             if (err)
             {
                 
@@ -56,16 +56,16 @@ module.exports = function postgre (database)
         })
     }
 
-    function updateDisposition (disposition, id, done)
+    function updateDisposition (disposition, lead_id,  done)
     {
-        database.query("UPDATE leads SET disposition = $1 where id = $2", [disposition, id], function (err, res) {
+        database.query("UPDATE leads SET disposition = $1 where lead_id = $2", [disposition, lead_id], function (err, res) {
             if (err)
             {
                 return done (err)
             }
             else
             {
-                return done (null, res)
+                return done (null, res.rows)
             }
         })
     }

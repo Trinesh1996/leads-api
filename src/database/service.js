@@ -32,19 +32,48 @@ var tableColumns =  uniqueColumn.concat(allColumns)
 
 
 
-// // Create Table
-database.query(`CREATE TABLE IF NOT EXISTS leads (id SERIAL, ${tableColumns}, disposition text)`, function (err, res) 
+function main (done)
 {
-    if (err) {
-        console.log(err)
-        return done (err)
-    }
-    else
+    createTable(function (err, res) {
+        if (err)
+        {
+            if (done && done.constructor == Function) return done (err)
+        }
+        else
+        {
+            insertLeads(function (err, res) {
+                if (err)
+                {
+                    if (done && done.constructor == Function) return done (err)
+                }
+                else
+                {
+                    if (done && done.constructor == Function) return done (null, "inserted leads")
+                }
+            })
+        }
+    })
+}
+
+function createTable (done)
+{
+    // // Create Table
+    database.query(`CREATE TABLE IF NOT EXISTS leads (id SERIAL, ${tableColumns}, disposition text)`, function (err, res) 
     {
-        console.log("created table")
-        return (null, "created Table")
-    }
-})
+        if (err) {
+            console.log(err)
+            return done (err)
+        }
+        else
+        {
+            
+            // Insert data
+            console.log(res)
+            return done (null, "created table")
+            
+        }
+    })
+}
 
 
 function insertLeads (done) 
@@ -70,16 +99,7 @@ function insertLeads (done)
 }
 
 
+main()
 
 
-// Insert data
-insertLeads(function (err, res) {
-    if (err)
-    {
-        console.log(err)
-    }
-    else
-    {
-        console.log(res)
-    }
-})
+
